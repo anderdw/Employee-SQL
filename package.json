@@ -1,0 +1,19 @@
+{
+  "name": "homework12",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "handlebars": "^4.7.6",
+    "inquirer": "^7.2.0",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,82 @@
+
+DROP DATABASE IF EXISTS employee_db;
+-- Create a database called programming_db --
+CREATE DATABASE employee_db;
+
+-- Use programming db for the following statements --
+USE employee_db;
+
+CREATE TABLE employee (
+  -- Create a numeric column called "id" which will automatically increment its default value as we create new rows. --
+id INTEGER AUTO_INCREMENT NOT NULL,
+first_name VARCHAR(30) NULL,
+last_name VARCHAR(30) NULL,
+role_id INT NOT NULL,
+manager_id INT NOT NULL,
+PRIMARY KEY (id)
+);
+
+-- Create new example rows
+INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("John", "Doe", 1, 1);
+INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("Mike", "Chan", 2, 1);
+INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("Ashley", "Rodriguez", 3, 1);
+INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("Kevin", "Tupik", 1, 1);
+INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("Malia", "Brown", 1, 0);
+INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("Sarah", "Lourd", 1, 0);
+INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("Tom", "Allen", 1, 0);
+INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("Bob", "Brown", 1, 0);
+
+
+
+
+DROP DATABASE IF EXISTS role_db;
+-- Create a database called programming_db --
+CREATE DATABASE role_db;
+
+-- Use programming db for the following statements --
+USE role_db;
+
+CREATE TABLE role (
+  -- Create a numeric column called "id" which will automatically increment its default value as we create new rows. --
+id INTEGER AUTO_INCREMENT NOT NULL,
+title VARCHAR(30),
+salary DECIMAL(10,2),
+department_id INT NOT NULL,
+PRIMARY KEY (id)
+);
+
+-- Create new example rows
+INSERT INTO role (title, salary, department_id) VALUES ("Sales Lead", 100000, 1);
+INSERT INTO role (title, salary, department_id) VALUES ("Salesperson", 90000, 1);
+INSERT INTO role (title, salary, department_id) VALUES ("Lead Engineer", 75000, 2);
+INSERT INTO role (title, salary, department_id) VALUES ("Software Engineer", 60000, 2);
+INSERT INTO role (title, salary, department_id) VALUES ("Legal Team Lead", 90000, 3);
+INSERT INTO role (title, salary, department_id) VALUES ("Lawyer", 75000, 3);
+INSERT INTO role (title, salary, department_id) VALUES ("Account Manager", 180000, 4);
+INSERT INTO role (title, salary, department_id) VALUES ("Accountant", 100000, 4);
+
+
+
+
+DROP DATABASE IF EXISTS department_db;
+-- Create a database called programming_db --
+CREATE DATABASE department_db;
+
+-- Use programming db for the following statements --
+USE department_db;
+
+CREATE TABLE department (
+  -- Create a numeric column called "id" which will automatically increment its default value as we create new rows. --
+id INTEGER AUTO_INCREMENT NOT NULL,
+name VARCHAR(100) NULL,
+PRIMARY KEY (id)
+);
+
+-- Create new example rows
+INSERT INTO department (name) VALUES ("Sales");
+INSERT INTO department (name) VALUES ("Engineering");
+INSERT INTO department (name) VALUES ("Legal");
+INSERT INTO department (name) VALUES ("Finance");
+
+
+
