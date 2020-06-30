@@ -1,8 +1,7 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 const path = require('path');
-const { allowedNodeEnvironmentFlags } = require("process");
-// const cTable = require('console.table');
+
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -33,8 +32,7 @@ function askQuestions() {
                 "View All Employees",
                 "View All Employees By Department",
                 "View All Employees By Role",
-                "Add Employee",
-                "Update Employee Role",
+                "Add New Employee",
                 "Exit"
             ]
         })
@@ -49,16 +47,10 @@ function askQuestions() {
                 case "View All Employees By Role":
                     viewByRole();
                     break;
-                case "Add Employee":
+                case "Add New Employee":
                     addEmployee();
-                    break;
-                case "Add Role":
-                    addRoles();
-                    break;
-                case "Update Employee Role":
-                    updateRole();
-                    break;
-                case "exit":
+                    break; 
+                case "Exit":
                     connection.end();
                     break;
             }
@@ -123,23 +115,23 @@ function addEmployee() {
             if (answer.firstname === '' || answer.lastname === '' || answer.roleid === '' || answer.managerid === '') {
                 console.log("Enter a response for all fields or go back to main menu.");
                 inquirer
-                .prompt({
-                    type: "list",
-                    message: "Enter a response for all fields or go back to main menu.",
-                    name: "choices",
-                    choices: [
-                        "Add Employee",
-                        "Main Menu"
-                    ]
-                })
-                .then (function (res)   {
-                    if (res.choices === "Add Employee")    {
-                        addEmployee();
-                    }   else    {
-                        askQuestions();
-                    }
-                })
-                
+                    .prompt({
+                        type: "list",
+                        message: "Enter a response for all fields or go back to main menu.",
+                        name: "choices",
+                        choices: [
+                            "Add Employee",
+                            "Main Menu"
+                        ]
+                    })
+                    .then(function (res) {
+                        if (res.choices === "Add Employee") {
+                            addEmployee();
+                        } else {
+                            askQuestions();
+                        }
+                    })
+
             } else {
                 connection.query("INSERT INTO employee SET ?",
                     { first_name: answer.firstname, last_name: answer.lastname, role_id: answer.roleid, manager_id: answer.managerid }, function (err, res) {
@@ -147,113 +139,6 @@ function addEmployee() {
                         console.log("\n Database with added employee. \n");
                         viewEmployees();
                     })
-            } 
+            }
         })
 }
-
-function addRole() {
-    inquirer
-        .prompt([
-        {
-            type: "input",
-            message: "Enter the employee title",
-            name: "title"
-        },
-        {
-            type: "input",
-            message: "Enter the employee salary",
-            name: "salary"
-        },
-        {
-            type: "input",
-            message: "Enter the employee department id",
-            name: "department_id"
-        }
-    ])
-    .then(function (res){
-        connection.query(
-            "INSERT INTO role SET ?", {
-                title: res.title,
-                salary: res.salary,
-                department_id: res.department_id
-            },
-            function (err, res) {
-                if (err) {
-                    throw err;
-                }
-                console.table(res);
-            }
-        );
-        start();
-    })
-
-
-
-
-
-
-
-
-function updateRole() {
-    let allemp = [];
-    connection.query("SELECT * FROM employee", function(err, answer) {
-      // console.log(answer);
-      for (let i = 0; i < answer.length; i++) {
-        let employeeString =
-          answer[i].id + " " + answer[i].first_name + " " + answer[i].last_name;
-        allemp.push(employeeString);
-      }
-      // console.log(allemp)
-  
-      inquirer
-        .prompt([
-          {
-            type: "list",
-            name: "updateEmpRole",
-            message: "select employee to update role",
-            choices: allemp
-          },
-          {
-            type: "list",
-            message: "select new role",
-            choices: ["Manager", "Bartender", "Server", "Host", "Chef"],
-            name: "newrole"
-          }
-        ])
-        .then(function(answer) {
-          console.log("about to update", answer);
-          const idToUpdate = {};
-          idToUpdate.employeeId = parseInt(answer.updateEmpRole.split(" ")[0]);
-          switch (answer.choices) {
-            case "Manager":
-                idToUpdate.role_id = 1;
-                break;
-            case "Bartender":
-                idToUpdate.role_id = 2;
-                break;
-            case "Server":
-                idToUpdate.role_id = 3;
-                break;
-            case "Host":
-                idToUpdate.role_id = 4;
-                break;
-            case "Chef":
-                idToUpdate.role_id = 5;
-                break;
-          }
-        //   if (answer.newrole === "manager") {
-        //     idToUpdate.role_id = 1;
-        //   } else if (answer.newrole === "employee") {
-        //     idToUpdate.role_id = 2;
-        //   }
-
-          connection.query(
-            "UPDATE employee SET role_id = ? WHERE id = ?",
-            [idToUpdate.role_id, idToUpdate.employeeId],
-            function(err, answer) {
-              viewEmployees();
-            }
-          );
-        });
-    });
-  }

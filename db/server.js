@@ -1,7 +1,7 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 const path = require("path");
-// const cTable = require("console.table");
+const cTable = require("console.table");
 // create the connection information for the sql database
 var connection = mysql.createConnection({
     host: "localhost",
@@ -10,7 +10,7 @@ var connection = mysql.createConnection({
     // Your username
     user: "root",
     // Your password
-    password: "",
+    password: "dean123",
     database: "employeeDB"
 });
 // connect to the mysql server and sql database
